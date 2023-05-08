@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "molemod",
+  "version": "${version}",
+  "name": "MoleMod",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/ImTheSquid/MoleMod"
+  },
+  "license": "MIT",
+  "icon": "assets/MoleMod/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+      "dev.jackhogan.molemod.client.MoleModClient"
+    ],
+    "main": [
+      "dev.jackhogan.molemod.MoleMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
