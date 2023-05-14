@@ -2,6 +2,8 @@ package dev.jackhogan.molemod;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,6 +26,10 @@ public class MoleMod implements ModInitializer {
     public void onInitialize() {
         ServerTickEvents.START_WORLD_TICK.register((world) -> {
             for (ServerPlayerEntity player : world.getPlayers()) {
+                EntityAttributeInstance eai = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+                if (eai != null) {
+                    eai.setBaseValue(16);
+                }
                 // Tick players
                 for (UUID uuid : safeRegistry.keySet()) {
                     int count = safeRegistry.get(uuid);
@@ -46,7 +52,7 @@ public class MoleMod implements ModInitializer {
                     continue;
                 }
 
-                if (world.isSkyVisible(player.getBlockPos()) && world.isDay() && player.world.getDimension().natural() && !safeRegistry.containsKey(player.getUuid()) && !player.isCreative()) {
+                if (world.isSkyVisible(player.getBlockPos()) && world.isDay() && player.world.getDimension().natural() && !safeRegistry.containsKey(player.getUuid()) && !(player.isCreative() || player.isSpectator())) {
                     if (!offenses.containsKey(player.getUuid())) {
                         offenses.put(player.getUuid(), new OffenseTracker());
                     }
